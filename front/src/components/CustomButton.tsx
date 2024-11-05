@@ -1,41 +1,41 @@
 import React from 'react';
 import {
-  Dimensions,
   Pressable,
-  PressableProps,
   StyleSheet,
   Text,
+  PressableProps,
+  Dimensions,
   View,
 } from 'react-native';
 import {colors} from '../constants';
 
 interface CustomButtonProps extends PressableProps {
   label: string;
-  varint?: 'filled' | 'outlined';
-  size?: 'large' | 'midlum';
+  variant?: 'filled' | 'outlined';
+  size?: 'large' | 'medium';
   inValid?: boolean;
 }
 
-const devicedHeight = Dimensions.get('screen').height;
+const deviceHeight = Dimensions.get('screen').height;
 
 function CustomButton({
   label,
-  varint = 'filled',
+  variant = 'filled',
   size = 'large',
   inValid = false,
   ...props
 }: CustomButtonProps) {
   return (
     <Pressable
+      disabled={inValid}
       style={({pressed}) => [
         styles.container,
-        styles[size],
-        pressed ? styles[`${varint}Pressed`] : styles[varint],
+        pressed ? styles[`${variant}Pressed`] : styles[variant],
         inValid && styles.inValid,
       ]}
       {...props}>
       <View style={styles[size]}>
-        <Text style={styles[`${varint}Text`]}>{label}</Text>
+        <Text style={[styles.text, styles[`${variant}Text`]]}>{label}</Text>
       </View>
     </Pressable>
   );
@@ -44,8 +44,8 @@ function CustomButton({
 const styles = StyleSheet.create({
   container: {
     borderRadius: 3,
-    justifyContent: 'center',
     flexDirection: 'row',
+    justifyContent: 'center',
   },
   inValid: {
     opacity: 0.5,
@@ -61,27 +61,27 @@ const styles = StyleSheet.create({
     backgroundColor: colors.PINK_500,
   },
   outlinedPressed: {
-    backgroundColor: colors.PINK_700,
+    borderColor: colors.PINK_700,
     borderWidth: 1,
     opacity: 0.5,
   },
   large: {
     width: '100%',
-    paddingVertical: devicedHeight > 700 ? 15 : 10,
+    paddingVertical: deviceHeight > 700 ? 15 : 10,
     alignItems: 'center',
-    justifyContent: 'center',
     flexDirection: 'row',
+    justifyContent: 'center',
   },
-  midlum: {
+  medium: {
     width: '50%',
-    paddingVertical: devicedHeight > 700 ? 12 : 8,
+    paddingVertical: deviceHeight > 700 ? 12 : 8,
     alignItems: 'center',
-    justifyContent: 'center',
     flexDirection: 'row',
+    justifyContent: 'center',
   },
   text: {
     fontSize: 16,
-    fontWeight: 700,
+    fontWeight: '700',
   },
   filledText: {
     color: colors.WHITE,
