@@ -33,7 +33,7 @@ function SignupScreen() {
           touched={signup.touched.email}
           inputMode="email"
           returnKeyType="next"
-          blurOnSubmit={false}
+          submitBehavior="submit"
           onSubmitEditing={() => passwordRef.current?.focus()}
           {...signup.getTextInputProps('email')}
         />
@@ -45,7 +45,7 @@ function SignupScreen() {
           touched={signup.touched.password}
           secureTextEntry
           returnKeyType="next"
-          blurOnSubmit={false}
+          submitBehavior="submit"
           onSubmitEditing={() => passwordConfirmRef.current?.focus()}
           {...signup.getTextInputProps('password')}
         />

@@ -34,7 +34,7 @@ function LoginScreen() {
           // onChangeText={text => handleChangeText('email', text)}
           // onBlur={() => handleBlur('email')}
           returnKeyType="next"
-          blurOnSubmit={false}
+          submitBehavior="submit"
           onSubmitEditing={() => passwordRef.current?.focus()}
           {...login.getTextInputProps('email')}
         />
@@ -45,7 +45,7 @@ function LoginScreen() {
           touched={login.touched.password}
           secureTextEntry
           returnKeyType="join"
-          blurOnSubmit={false}
+          submitBehavior="blurAndSubmit"
           onSubmitEditing={handleSubmit}
           {...login.getTextInputProps('password')}
         />

@@ -1,7 +1,14 @@
 import React, {ForwardedRef, forwardRef, useRef} from 'react';
-import {Dimensions, StyleSheet, Text, TextInputProps, View} from 'react-native';
+import {
+  Dimensions,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  TextInputProps,
+  View,
+} from 'react-native';
 import {colors} from '../constants';
-import {Pressable, TextInput} from 'react-native-gesture-handler';
 import {mergeRefs} from '../utils/';
 
 interface InputFeldProps extends TextInputProps {
