@@ -1,15 +1,17 @@
 import React, {useRef} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import useForm from '../../../android/app/src/hooks/useForms';
+import useForm from '../../hooks/useForms';
 import InputFeld from '../../components/InputFeld';
 import CustomButton from '../../components/CustomButton';
 import {validateSignup} from '../../utils';
 import {TextInput} from 'react-native-gesture-handler';
+import useAuth from '../../hooks/queries/useAuth';
 
 function SignupScreen() {
   const passwordRef = useRef<TextInput | null>(null);
   const passwordConfirmRef = useRef<TextInput | null>(null);
+  const {signupMutation, loginMutation} = useAuth();
   const signup = useForm({
     initialValue: {
       email: '',
@@ -20,7 +22,12 @@ function SignupScreen() {
   });
 
   const handleSubmit = () => {
-    console.log('login.value', signup.values);
+    console.log('dd');
+    const {email, password} = signup.values;
+
+    signupMutation.mutate(signup.values, {
+      onSuccess: () => loginMutation.mutate({email, password}),
+    });
   };
 
   return (

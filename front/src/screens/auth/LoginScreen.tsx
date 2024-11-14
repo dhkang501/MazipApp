@@ -2,11 +2,13 @@ import React, {useRef, useState} from 'react';
 import {SafeAreaView, StyleSheet, TextInput, View} from 'react-native';
 import InputFeld from '../../components/InputFeld';
 import CustomButton from '../../components/CustomButton';
-import useForm from '../../../android/app/src/hooks/useForms';
+import useForm from '../../hooks/useForms';
 import {validateLogin} from '../../utils';
+import useAuth from '../../hooks/queries/useAuth';
 
 function LoginScreen() {
   const passwordRef = useRef<TextInput | null>(null);
+  const {loginMutation} = useAuth();
   const login = useForm({
     initialValue: {
       email: '',
@@ -15,10 +17,8 @@ function LoginScreen() {
     validate: validateLogin,
   });
 
-  // console.log(login.getTextInputProps('email'));
-
   const handleSubmit = () => {
-    console.log('values', login.values);
+    loginMutation.mutate(login.values);
   };
 
   return (
@@ -72,3 +72,6 @@ const styles = StyleSheet.create({
 });
 
 export default LoginScreen;
+function useLogin() {
+  throw new Error('Function not implemented.');
+}
