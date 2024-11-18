@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef} from 'react';
 import {SafeAreaView, StyleSheet, TextInput, View} from 'react-native';
 import InputFeld from '../../components/InputFeld';
 import CustomButton from '../../components/CustomButton';
@@ -16,7 +16,6 @@ function LoginScreen() {
     },
     validate: validateLogin,
   });
-
   const handleSubmit = () => {
     loginMutation.mutate(login.values);
   };

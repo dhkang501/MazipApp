@@ -15,16 +15,11 @@ import {
 import {removeHeader, setHeader} from '../../utils/header';
 import {removeEncryptStorage, setEncryptStorage} from '../../utils';
 import queryClient from '../../api/queryClient';
+import {queryKeys, strageKey} from '../../constants';
 
 function useSignup(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
     mutationFn: postSignup,
-    onSuccess: () => {
-      console.log('로그아웃 성공');
-    },
-    onError: error => {
-      console.log('로그아웃 에러:', error);
-    },
     ...mutationOptions,
   });
 }
@@ -38,10 +33,10 @@ function useLogin(mutationOptions?: UseMutationCustomOptions) {
     },
     onSettled: () => {
       queryClient.refetchQueries({
-        queryKey: ['auth', 'getAccessToken'],
+        queryKey: [queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN],
       });
       queryClient.invalidateQueries({
-        queryKey: ['auth', 'useGetProfile'],
+        queryKey: [queryKeys.AUTH, queryKeys.GET_PROFILE],
       });
     },
     ...mutationOptions,
@@ -50,7 +45,7 @@ function useLogin(mutationOptions?: UseMutationCustomOptions) {
 
 function useGetRefreshToken() {
   const {data, error, isSuccess, isError} = useQuery({
-    queryKey: ['auth', 'getAccessToken'],
+    queryKey: [queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN],
     queryFn: getAccessToken,
     staleTime: 1000 * 60 * 30 - 1000 * 60 * 3,
     refetchInterval: 1000 * 60 * 30 - 1000 * 60 * 3,
@@ -61,14 +56,14 @@ function useGetRefreshToken() {
   useEffect(() => {
     if (isSuccess) {
       setHeader('Authorization', `Bearer ${data.accessToken}`);
-      setEncryptStorage('refreshToken', data.refreshToken);
+      setEncryptStorage(strageKey.REFRESH_TOKEN, data.refreshToken);
     }
   }, [isSuccess]);
 
   useEffect(() => {
     if (isError) {
       removeHeader('Authorization');
-      removeEncryptStorage('refreshToken');
+      removeEncryptStorage(strageKey.REFRESH_TOKEN);
     }
   }, [isError]);
 
@@ -78,7 +73,7 @@ function useGetRefreshToken() {
 function useGetProfile(queryOptions?: UseQueryCustomOptions<ResponseProfile>) {
   return useQuery({
     queryFn: getProfile,
-    queryKey: ['auth', 'useGetProfile'],
+    queryKey: [queryKeys.AUTH, queryKeys.GET_PROFILE],
     ...queryOptions,
   });
 }
@@ -87,17 +82,12 @@ function useLogout(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
     mutationFn: logout,
     onSuccess: () => {
-      // console.log('로그아웃 성공');
       removeHeader('Authorization');
-      removeEncryptStorage('refreshToken');
+      removeEncryptStorage(strageKey.REFRESH_TOKEN);
     },
     onSettled: () => {
-      queryClient.invalidateQueries({queryKey: ['auth']});
-      // console.log('로그아웃 완료');
+      queryClient.invalidateQueries({queryKey: [queryKeys.AUTH]});
     },
-    // onError: error => {
-    //   console.log('로그아웃 에러:', error);
-    // },
     ...mutationOptions,
   });
 }

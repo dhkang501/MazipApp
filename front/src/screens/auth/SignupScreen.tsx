@@ -22,9 +22,7 @@ function SignupScreen() {
   });
 
   const handleSubmit = () => {
-    console.log('dd');
     const {email, password} = signup.values;
-
     signupMutation.mutate(signup.values, {
       onSuccess: () => loginMutation.mutate({email, password}),
     });

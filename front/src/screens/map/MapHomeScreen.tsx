@@ -10,17 +10,7 @@ function MapHomeScreen() {
       <Button
         title="로그아웃"
         onPress={() => {
-          logoutMutation.mutate(null, {
-            onSuccess: () => {
-              console.log('로그아웃 성공');
-            },
-            onError: error => {
-              console.log('로그아웃 에러:', error);
-            },
-            onSettled: () => {
-              console.log('로그아웃 완료');
-            },
-          });
+          logoutMutation.mutate(null);
         }}
       />
     </View>
