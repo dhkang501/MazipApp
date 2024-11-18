@@ -15,7 +15,7 @@ import {
 import {removeHeader, setHeader} from '../../utils/header';
 import {removeEncryptStorage, setEncryptStorage} from '../../utils';
 import queryClient from '../../api/queryClient';
-import {queryKeys, strageKey} from '../../constants';
+import {numbers, queryKeys, strageKey} from '../../constants';
 
 function useSignup(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
@@ -47,8 +47,8 @@ function useGetRefreshToken() {
   const {data, error, isSuccess, isError} = useQuery({
     queryKey: [queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN],
     queryFn: getAccessToken,
-    staleTime: 1000 * 60 * 30 - 1000 * 60 * 3,
-    refetchInterval: 1000 * 60 * 30 - 1000 * 60 * 3,
+    staleTime: numbers.ACCESS_TOKEN_REFRESH_TIME,
+    refetchInterval: numbers.ACCESS_TOKEN_REFRESH_TIME,
     refetchOnReconnect: true,
     refetchIntervalInBackground: true,
   });
